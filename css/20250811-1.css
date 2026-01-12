@@ -1,0 +1,100 @@
+body{
+    background-color: var(--mycolor02);
+}
+.wrapper {
+    margin-top: 50px;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1024px;
+}
+
+.logo {
+    width: 1024px;
+    height: 220px;
+    background-color: #ccc;
+    background-image: url(../images/landscape05.avif);
+    background-position: center center;
+    background-size: cover;
+}
+
+nav {
+    background-color: var(--mycolor01);
+    text-align: center;
+}
+
+nav ul {
+    display: inline-block;
+}
+
+nav ul li {
+    float: left;
+    list-style-type: none;
+}
+
+nav ul li a {
+    display: block;
+    background-color: var(--mycolor03);
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bolder;
+    color: #e9e7e5;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px 4px #572802;
+}
+
+nav ul li a:hover {
+    color: #111111;
+    box-shadow: 2px 2px 4px 4px #e2ddd8;
+}
+.content{
+    text-align: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: var(--mycolor04);
+}
+.content h1{
+    color: #A299CA;
+    font-size: 48px;
+    font-weight: 900;
+}
+.content p{
+    font-size: 20px;
+}
+.content a{
+    display: block;
+    width: 130px;
+    height: 50px;
+    background-color: var(--mycolor06);
+    /* margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto; */
+    margin: 0 auto;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: bolder;
+    color: #e2ddd8;
+    line-height: 50px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px 2px #5f0404;
+}
+.content a:hover{
+        box-shadow: 2px 2px 2px 2px #ebe7e7;
+}
+.footer{
+    background-color: var(--mycolor08);
+    color: #ccc;
+    font-size: 22px;
+    text-align: center;
+    font-weight: bolder;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

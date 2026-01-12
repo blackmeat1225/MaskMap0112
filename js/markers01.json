@@ -1,0 +1,64 @@
+{
+  "center": {
+    "lat": 24.1712881,
+    "lng": 120.609817,
+    "zoom": 15
+  },
+  "markers": [
+    {
+      "id": 1,
+      "title": "中彰投分署",
+      "lat": 24.1712881,
+      "lng": 120.609817,
+      "iconType": "heart",
+      "image": "images/landscape01.avif",
+      "description": "勞動力發展署中彰投地區訓練與就業服務據點",
+      "category": "政府機構",
+      "area": "西屯區"
+    },
+    {
+      "id": 2,
+      "title": "東海大學實習農牧場",
+      "lat": 24.179883,
+      "lng": 120.6070579,
+      "iconType": "user",
+      "image": "images/landscape02.avif",
+      "description": "結合教學與實務的校內農牧實習場域",
+      "category": "教育單位",
+      "area": "西屯區"
+    },
+    {
+      "id": 3,
+      "title": "逢甲夜市",
+      "lat": 24.176844,
+      "lng": 120.642659,
+      "iconType": "heart",
+      "image": "images/landscape03.avif",
+      "description": "台中知名夜市，聚集各式小吃與商圈",
+      "category": "觀光景點",
+      "area": "西屯區"
+    },
+    {
+      "id": 4,
+      "title": "台中市政府",
+      "lat": 24.163162,
+      "lng": 120.646727,
+      "iconType": "gold",
+      "image": "images/landscape04.avif",
+      "description": "台中市行政中心，市政業務核心據點",
+      "category": "政府機構",
+      "area": "西屯區"
+    },
+    {
+      "id": 5,
+      "title": "秋紅谷景觀生態公園",
+      "lat": 24.168604,
+      "lng": 120.639983,
+      "iconType": "heart",
+      "image": "images/landscape05.avif",
+      "description": "下凹式綠地公園，結合生態與都市景觀",
+      "category": "公園綠地",
+      "area": "西屯區"
+    }
+  ]
+}

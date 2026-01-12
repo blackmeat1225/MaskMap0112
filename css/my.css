@@ -1,0 +1,199 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap'); */
+
+:root {
+    --mycolor01: #EAC9C0;
+    --mycolor02: #DAB2D3;
+    --mycolor03: #9EDAE3;
+    --mycolor04: #65C4D8;
+    --mycolor05: #F0BBC3;
+    --mycolor06: #10A44A;
+    --mycolor07: #FD8411;
+    --mycolor08: #877D7C;
+    --mycolor09: #c7c3c3;
+    --mycolor10: #FFFFFF;
+    --mycolor11: #000000;
+    --mycolor12: #e71ac2;
+
+    --textcolor01: #f7f1f0;
+    --textcolor02: #353535;
+}
+
+body {
+    font-family: "Zen Maru Gothic", sans-serif;
+}
+/* 字體顏色 */
+.text-01{
+    color: var(--mycolor01);
+}
+.text-02{
+    color: var(--mycolor02);
+}
+.text-03{
+    color: var(--mycolor03);
+}
+.text-04{
+    color: var(--mycolor04);
+}
+.text-05{
+    color: var(--mycolor05);
+}
+
+
+
+
+
+/* 背景色 */
+.bg-01 {
+    background-color: var(--mycolor01);
+}
+
+.bg-02 {
+    background-color: var(--mycolor02);
+}
+
+.bg-03 {
+    background-color: var(--mycolor03);
+}
+
+.bg-04 {
+    background-color: var(--mycolor04);
+}
+
+.bg-05 {
+    background-color: var(--mycolor05);
+}
+
+.bg-06 {
+    background-color: var(--mycolor06);
+}
+
+.bg-07 {
+    background-color: var(--mycolor07);
+}
+
+.bg-08 {
+    background-color: var(--mycolor08);
+}
+
+.bg-09 {
+    background-color: var(--mycolor09);
+}
+
+.bg-10 {
+    background-color: var(--mycolor10);
+}
+
+.bg-11 {
+    background-color: var(--mycolor11);
+}
+
+.bg-12 {
+    background-color: var(--mycolor12);
+}
+
+.fw-900 {
+    font-weight: 900;
+}
+
+
+/* roller 由上到下 */
+.roller-top {
+    position: relative;
+    overflow: hidden;
+}
+
+.roller-top .roller_box-top {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    transform: translateY(-100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.roller-top:hover .roller_box-top {
+    transform: translateY(0);
+    transition: transform 1.5s;
+}
+
+/* roller 由下到上 */
+.roller-bottom {
+    position: relative;
+    overflow: hidden;
+}
+
+.roller-bottom .roller_box-bottom {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    transform: translateY(100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.roller-bottom:hover .roller_box-bottom {
+    transform: translateY(0);
+    transition: transform 1.5s;
+}
+
+/* roller 由左到右 */
+.roller-left {
+    position: relative;
+    overflow: hidden;
+}
+
+.roller-left .roller_box-left {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    transform: translateX(-100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.roller-left:hover .roller_box-left {
+    transform: translateY(0);
+    transition: transform 1.5s;
+}
+
+/* roller 由右到左 */
+.roller-right {
+    position: relative;
+    overflow: hidden;
+}
+
+.roller-right .roller_box-right {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    transform: translateX(100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.roller-right:hover .roller_box-right {
+    transform: translateY(0);
+    transition: transform 1.5s;
+}
+
+/* 背景 */
+.bg-cover {
+    background-position: center center;
+    background-size: cover;
+}

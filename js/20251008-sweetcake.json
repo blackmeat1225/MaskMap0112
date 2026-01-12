@@ -1,0 +1,51 @@
+[
+    {
+        "ID": "P001",
+        "Title": "草莓鮮奶蛋糕",
+        "Description": "使用新鮮草莓與北海道鮮奶製成，口感清爽不膩，香氣濃郁。",
+        "Price": 480,
+        "PicURL": "images/cake01.avif"
+    },
+    {
+        "ID": "P002",
+        "Title": "焦糖布丁捲",
+        "Description": "綿密蛋糕捲內包手工焦糖布丁，甜而不膩的經典人氣甜點。",
+        "Price": 320,
+        "PicURL": "images/cake02.avif"
+    },
+    {
+        "ID": "P003",
+        "Title": "生巧克力塔",
+        "Description": "選用比利時生巧克力製成，濃郁滑順，入口即化。",
+        "Price": 260,
+        "PicURL": "images/cake03.avif"
+    },
+    {
+        "ID": "P004",
+        "Title": "芒果慕斯杯",
+        "Description": "季節限定芒果製成慕斯，酸甜層次分明，冰涼可口。",
+        "Price": 220,
+        "PicURL": "images/cake04.avif"
+    },
+    {
+        "ID": "P005",
+        "Title": "抹茶紅豆蛋糕",
+        "Description": "嚴選宇治抹茶粉與北海道紅豆，完美融合成大人系風味。",
+        "Price": 350,
+        "PicURL": "images/cake05.avif"
+    },
+    {
+        "ID": "P006",
+        "Title": "抹茶XXXXX",
+        "Description": "嚴選宇治抹茶粉與北海道紅豆，完美融合成大人系風味。",
+        "Price": 380,
+        "PicURL": "images/cake06.avif"
+    },
+    {
+        "ID": "P007",
+        "Title": "抹茶OOOOO",
+        "Description": "嚴選宇治抹茶粉與北海道紅豆，完美融合成大人系風味。",
+        "Price": 380,
+        "PicURL": "images/cake07.avif"
+    }
+]
