@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>口罩地圖</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="css/my.css">
+    <style>
+        .list-group-item {
+            position: relative;
+        }
+
+        .mask-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border-radius: 20px;
+            padding: 6px 10px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: aliceblue;
+            box-shadow: 2px 2px 2px 2px #ccc;
+        }
+
+        .bg01 {
+            background: linear-gradient(135deg, #fff5f5 0%, #bebbbb 100%);
+            border-left: 6px solid #e03131;
+        }
+
+        .bg01 .h4,
+        .bg01 .h2 {
+            color: #c92a2a;
+        }
+
+        .bg02 {
+            background: linear-gradient(135deg, #f4fdf6 0%, #e6f9ec 100%);
+            border-left: 6px solid #2f9e44;
+        }
+
+        .bg02 .h4,
+        .bg02 .h2 {
+            color: #2d8a3e;
+        }
+
+        #myList {
+            overflow: scroll;
+            height: 85vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row vh-100">
+            <div class="col-md-4">
+                <select name="" id="cityOption" class="form-select form-select-lg mt-3">
+                    <option value="" class="fw-900" selected disabled>--- 選取縣市名稱 ---</option>
+                    <option value="臺中市">臺中市</option>
+                    <option value="臺北市">臺北市</option>
+                </select>
+
+                <select name="" id="areaOption" class="form-select form-select-lg mt-3" disabled>
+                    <option value="" class="fw-900" selected disabled>--- 請先選取縣市名稱 ---</option>
+                    <!-- <option value="西屯區">西屯區</option>
+                    <option value="北屯區">北屯區</option> -->
+                </select>
+
+                <ul class="list-group mt-3" id="myList">
+                    <li class="list-group-item">
+                        <span class="mask-badge bg-success">足夠</span>
+                        <div class="h4 text-primary">名稱:XXXX</div>
+                        <div class="h4 text-success">地址:XXXX</div>
+                        <div class="h4 text-info">電話:XXXX</div>
+                        <div class="h4">成人口罩: <span class="h2 fw-900 text-danger">99</span>個</div>
+                        <div class="h4">兒童口罩:<span class="h2 fw-900 text-danger">99</span>個</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-8">
+                <div id="map" class="vh-100 p-0"></div>
+            </div>
+        </div>
+    </div>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="js/leaflet-color-markers.js"></script>
+    <script>
+        let map;// 存放地圖
+        let cityData; //儲存所有的縣市資料
+        let maskData; //儲存所有的健保局藥局資料
+        let selectedCity; //儲存已選擇的縣市名稱
+        let selectedArea; //儲存已選擇的鄉鎮區名稱
+        $(async function () {
+            //產生地圖 西屯區
+            drawMap();
+
+
+            // $("#myList").empty();
+            //讀取縣市資料
+            cityData = await getCityDta();
+            console.log(cityData);
+            //讀取健保局藥局資料
+            maskData = await getMaskDta();
+            console.log(maskData);
+
+            //產生縣市選單
+            renderCityOption(cityData);
+
+            //監聽縣市選單
+            $("#cityOption").on("change", function () {
+                $("#areaOption").prop("disabled", false);
+                console.log($(this).val());
+                selectedCity = $(this).val();
+                //利用已經選取的縣市名稱 產生相對的鄉鎮區選單
+                $("#areaOption").empty();
+                $("#areaOption").append(`<option value="" class="fw-900" selected disabled>--- 選取鄉鎮區名稱 ---</option>`);
+                cityData.forEach(function (item) {
+                    if (item.CityName == selectedCity) {
+                        item.AreaList.forEach(function (area) {
+                            //產生鄉鎮區選單
+                            let strHTML = `<option value="${area.AreaName}">${area.AreaName}</option>`;
+                            $("#areaOption").append(strHTML);
+                        });
+                    }
+                });
+            });
+
+            //監聽鄉鎮區選單
+            $("#areaOption").on("change", function () {
+                console.log($(this).val());
+                selectedArea = $(this).val();
+
+                //過濾健保局的藥局資料
+                $("#myList").empty();
+
+                //清空marker
+                removeMarker();
+                markerMap = {}; // 索引表
+                let count = 0; //統計該區藥局數量
+                let flag_panTo = false;
+                maskData.features.forEach(function (item) {
+                    if (item.properties.county == selectedCity && item.properties.town == selectedArea) {
+                        count++;
+                        if (!flag_panTo) {
+                            map.panTo([item.geometry.coordinates[1], item.geometry.coordinates[0]]);
+                            flag_panTo = !flag_panTo;
+                        }
+
+                        //二元運算子
+                        const listclass = item.properties.mask_adult < 1000 ? "bg01" : "bg02";
+                        const badgeText = item.properties.mask_adult < 1000 ? "缺少" : "足夠";
+                        const bgclass = item.properties.mask_adult < 1000 ? "bg-danger" : "bg-success";
+
+                        const key = item.properties.id;
+                        let strHTML = `<li class="list-group-item ${listclass}" data-key="${key}">
+                            <span class="mask-badge ${bgclass}">${badgeText}</span>
+                            <div class="h4 text-success fw-900">名稱:${item.properties.name}</div>
+                            <div class="h4 text-success fw-900">地址:${item.properties.address}</div>
+                            <div class="h4 text-success fw-900">電話:${item.properties.phone}</div>
+                            <div class="h4">成人口罩: <span class="h2 fw-900 text-danger">${item.properties.mask_adult}</span>個</div>
+                            <div class="h4">兒童口罩:<span class="h2 fw-900 text-danger">${item.properties.mask_child}</span>個</div>
+                        </li>`;
+                        $("#myList").append(strHTML);
+
+                        //劃出marker
+                        const marker = L.marker([item.geometry.coordinates[1], item.geometry.coordinates[0]], { icon: heartIcon }).addTo(map)
+                            .bindPopup(`<div class="card shadow-sm" style="width: 220px;">
+                                    <div class="h4 text-success fw-900">名稱:${item.properties.name}</div>
+                                    <div class="h4 text-success fw-900">地址:${item.properties.address}</div>
+                                    <div class="h4 text-success fw-900">電話:${item.properties.phone}</div>
+                                    <div class="h4">成人口罩: <span class="h2 fw-900 text-danger">${item.properties.mask_adult}</span>個</div>
+                                    <div class="h4">兒童口罩:<span class="h2 fw-900 text-danger">${item.properties.mask_child}</span>個</div>
+                                </div>`);
+                        markerMap[key] = marker;
+                    }
+                });
+
+                console.log(markerMap);
+
+                if (count == 0) {
+                    $("#myList").append(`<li class="list-group-item h1 text-muted text-center py-4"> 該區域沒有藥局資料!</li>`);
+                }
+            });
+
+            //監聽myList選單
+            $("#myList").on("click", ".list-group-item", function () {
+                const key = $(this).data("key");
+                console.log(key);
+
+                const marker = markerMap[key];
+                if (!marker) {
+                    return;
+                }
+
+                map.panTo(marker.getLatLng());
+                marker.openPopup();
+
+                //標註目前所選的藥局 mylist
+                $("#myList .list-group-item").removeClass("active");
+                $(this).addClass("active");
+
+            });
+
+        });
+
+        function drawMap() {
+            //產生地圖
+            map = L.map('map').setView([24.1712881, 120.609817], 12);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+        }
+
+        function getCityDta() {
+            //讀取縣市資料
+            return $.ajax({
+                type: "GET",
+                url: "js/CityCountyData.json",
+                dataType: "json"
+            });
+        }
+
+        function getMaskDta() {
+            //讀取健保局藥局資料
+            return $.ajax({
+                type: "GET",
+                url: "js/points.json",
+                dataType: "json"
+            });
+        }
+
+        function renderCityOption(cityData) {
+            $("#cityOption").empty();
+            $("#cityOption").append(`<option value="" class="fw-900" selected disabled>--- 選取縣市名稱 ---</option>`);
+            cityData.forEach(function (item) {
+                let strHTML = `<option value="${item.CityName}">${item.CityName}</option>`;
+                $("#cityOption").append(strHTML);
+            });
+        }
+
+        //清除marker
+        function removeMarker() {
+            map.eachLayer(function (layer) {
+                if (layer instanceof L.Marker) {
+                    map.removeLayer(layer);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
